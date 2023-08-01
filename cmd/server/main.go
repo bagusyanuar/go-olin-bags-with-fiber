@@ -1,10 +1,7 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/bagusyanuar/go-olin-bags-with-fiber/config"
-	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
@@ -12,7 +9,15 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	app := fiber.New()
-	port := fmt.Sprintf(":%s", cfg.Port)
-	app.Listen(port)
+
+	db, err := config.NewMySQLConnection(&cfg.MySQL)
+
+	if err != nil {
+		panic(err)
+	}
+
+	if cfg.AppMode == "dev" {
+		db = db.Debug()
+	}
+
 }
