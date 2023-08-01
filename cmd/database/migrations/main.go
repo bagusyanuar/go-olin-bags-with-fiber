@@ -1,7 +1,9 @@
 package main
 
 import (
-	"github.com/bagusyanuar/go-olin-bags-with-fiber/app/server"
+	"fmt"
+
+	"github.com/bagusyanuar/go-olin-bags-with-fiber/cmd/database/scheme"
 	"github.com/bagusyanuar/go-olin-bags-with-fiber/config"
 )
 
@@ -17,10 +19,6 @@ func main() {
 		panic(err)
 	}
 
-	if cfg.AppMode == "dev" {
-		db = db.Debug()
-	}
-
-	server.Listen(cfg, db)
-
+	scheme.Migrate(db)
+	fmt.Println("successfully migrating database")
 }
